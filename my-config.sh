@@ -68,8 +68,8 @@ sudo apt -y install ./vscode.deb
 git config --global user.name "${GIT_USERNAME}"
 git config --global user.email "${GIT_EMAIL}"
 git config --global credential.credentialStore cache
-wget https://github.com/git-ecosystem/git-credential-manager/releases/download/v$GCM_VERSION/gcm-linux_amd64.${GCM_VERSION}.tar.gz -O gcm-linux_amd64.${GCM_VERSION}.tar.gz
-sudo tar -xvf gcm-linux_amd64.${GCM_VERSION}.tar.gz -C /usr/local/bin
+wget https://github.com/git-ecosystem/git-credential-manager/releases/download/v${GCM_VER}/gcm-linux_amd64.${GCM_VER}.tar.gz -O gcm-linux_amd64.${GCM_VER}.tar.gz
+sudo tar -xvf gcm-linux_amd64.${GCM_VER}.tar.gz -C /usr/local/bin
 git-credential-manager configure
 
 # btop
