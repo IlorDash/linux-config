@@ -1,2 +1,3 @@
-# linux-config
-My linux-config
+# Linux config
+
+My Linux config basically for Linux Mint Mate.
