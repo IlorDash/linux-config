@@ -37,14 +37,17 @@ sudo apt -y install wget curl git
 
 curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
 sudo apt-get -y install speedtest-cli
+# Remove ookla repository, because it's fails due to unsecure
+sudo rm /etc/apt/sources.list.d/ookla_speedtest-cli.list
 
 # Share Clipboard
 
-wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
-mkdir ShareClipbrdApp
-tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
-sudo ln -s $(pwd)/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
+# wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
+# mkdir ShareClipbrdApp
+# tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
+# sudo ln -s $(pwd)/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
 # Run Share Clipboard at startup
+mkdir -p /home/${USER}/.config/autostart
 touch /home/${USER}/.config/autostart/share-clipbrd.desktop
 cat > /home/${USER}/.config/autostart/share-clipbrd.desktop << EOL
 [Desktop Entry]
@@ -75,7 +78,8 @@ git-credential-manager configure
 # btop
 
 wget https://github.com/aristocratos/btop/releases/download/v${BTOP_VER}/btop-x86_64-linux-musl.tbz
-cd btop-x86_64-linux-musl.tbz
+tar -xvjf btop-x86_64-linux-musl.tbz
+cd btop
 sudo make install
 sudo make setcap
 
