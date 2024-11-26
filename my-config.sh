@@ -83,5 +83,7 @@ cd btop
 sudo make install
 sudo make setcap
 
+sudo adduser ${USER} dialout
+
 sudo apt autoremove
 sudo reboot now
