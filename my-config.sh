@@ -29,9 +29,9 @@ sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
 
-# Base packages
+# Install packages
 
-sudo apt -y install wget curl git
+sudo apt -y install wget curl git minicom
 
 # Speedtest CLI
 
