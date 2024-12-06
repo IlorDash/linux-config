@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import re
 import subprocess
 import sys
@@ -15,17 +13,10 @@ def check_signed_off_by(commit_msg_filepath):
     with open(commit_msg_filepath, "r+") as file:
         commit_msg = file.read()
         if not re.search(my_signoff_regex, commit_msg):
-            sys.stdin = open("/dev/tty", "r")
-            print("Error: Missing 'Signed-off-by' in the commit message.")
-            user_input = input("Do you want to add a Signed-off-by trailer? (yes/no): ")
-            if user_input.lower() in ["yes", "y"]:
 
-                if not re.search(commit_tailer_regex, commit_msg):
-                    file.write("\n")
+            if not re.search(commit_tailer_regex, commit_msg):
+                file.write("\n")
 
                 file.write(f"Signed-off-by: {git_username} <{git_email}>\n")
-            else:
-                print("Aborting commit...")
-                sys.exit(1)
 
 check_signed_off_by(sys.argv[1])
