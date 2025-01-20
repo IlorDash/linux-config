@@ -83,6 +83,18 @@ cd btop
 sudo make install
 sudo make setcap
 
+# i3wm
+
+sudo apt -y install xorg lightdm lightdm-gtk-greeter i3-wm i3lock i3status i3blocks dmenu terminator picom
+sudo systemctl enable lightdm.service
+
+# zsh
+
+sudo apt install zsh git fonts-font-awesome
+sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
 sudo adduser ${USER} dialout
 
 sudo apt autoremove
