@@ -2,6 +2,8 @@
 
 set -ex
 
+cd ~
+
 # Packages versions
 
 SHARE_CLIPBRD_VER="1.0.3"
@@ -85,13 +87,16 @@ sudo make setcap
 
 # i3wm
 
-sudo apt -y install xorg lightdm lightdm-gtk-greeter i3-wm i3lock i3status i3blocks dmenu terminator picom
+sudo apt -y install xorg lightdm lightdm-gtk-greeter i3-wm i3lock i3status i3blocks dmenu \
+    terminator tmux feh materia-gtk-theme papirus-icon-theme lxappearance fonts-font-awesome \
+    picom fonts-droid-fallback
 sudo systemctl enable lightdm.service
 
 # zsh
 
 sudo apt install zsh git fonts-font-awesome
-sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+echo y | RUNZSH=no sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
