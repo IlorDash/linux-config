@@ -1,6 +1,7 @@
 #!/bin/sh
 
 BLANK='#00000000'
+# shellcheck disable=SC2034
 CLEAR='#ffffff22'
 # DEFAULT='#8b0000aa'
 DEFAULT='#ffffffff'

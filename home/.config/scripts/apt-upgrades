@@ -19,6 +19,7 @@ PENDING_COLOR=${PENDING_COLOR:-"#00FF00"}
 NONPENDING_COLOR=${NONPENDING_COLOR:-"#FFFFFF"}
 
 while getopts s:oc:n:Nh opt; do
+# shellcheck disable=SC2220
     case "$opt" in
         s) PENDING_SYMBOL="$OPTARG" ;;
         o) SYMBOL_ONLY=1 ;;
@@ -37,7 +38,7 @@ Options:
     esac
 done
 
-read upgraded new removed held < <(
+read -r upgraded new removed held < <(
 aptitude full-upgrade --simulate --assume-yes |\
     grep -m1 '^[0-9]\+ packages upgraded,' |\
     tr -cd '0-9 ' |\
@@ -54,10 +55,10 @@ if [[ $upgraded != 0 ]] || [[ $new != 0 ]] || [[ $removed != 0 ]] || [[ $held !=
         echo -e "$PENDING_SYMBOL$upgraded/$new/$removed/$held"
         echo -e "$PENDING_SYMBOL$upgraded/$new/$removed/$held"
     fi
-    echo $color
+    echo "$color"
 elif [[ $ALWAYS_PRINT == 1 ]]; then
     color="$NONPENDING_COLOR"
     echo -e "$PENDING_SYMBOL$upgraded/$new/$removed/$held"
     echo -e "$PENDING_SYMBOL$upgraded/$new/$removed/$held"
-    echo $color
+    echo "$color"
 fi

@@ -2,7 +2,7 @@
 TYPE="${BLOCK_INSTANCE:-mem}"
 PERCENT="${PERCENT:-true}"
 
-awk -v type=$TYPE -v percent=$PERCENT '
+awk -v type="$TYPE" -v percent="$PERCENT" '
 /^MemTotal:/ {
 	mem_total=$2
 }
