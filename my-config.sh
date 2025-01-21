@@ -15,16 +15,6 @@ BTOP_VER="1.4.0"
 GIT_USERNAME="IlorDash"
 GIT_EMAIL="ilordash02@gmail.com"
 
-# Setup Full HD resolution
-
-if sudo grep -q '^GRUB_CMDLINE_LINUX_DEFAULT=' /etc/default/grub; then
-    sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"|' /etc/default/grub
-else
-    sudo echo 'GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"' >> /etc/default/grub
-fi
-
-sudo update-grub
-
 # Update
 
 sudo apt-get update
@@ -44,14 +34,14 @@ sudo rm /etc/apt/sources.list.d/ookla_speedtest-cli.list
 
 # Share Clipboard
 
-# wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
-# mkdir ShareClipbrdApp
-# tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
-# sudo ln -s $(pwd)/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
+wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
+mkdir ShareClipbrdApp
+tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
+sudo ln -s "$(pwd)"/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
 # Run Share Clipboard at startup
-mkdir -p /home/${USER}/.config/autostart
-touch /home/${USER}/.config/autostart/share-clipbrd.desktop
-cat > /home/${USER}/.config/autostart/share-clipbrd.desktop << EOL
+mkdir -p /home/"${USER}"/.config/autostart
+touch /home/"${USER}"/.config/autostart/share-clipbrd.desktop
+cat > /home/"${USER}"/.config/autostart/share-clipbrd.desktop << EOL
 [Desktop Entry]
 Type=Application
 Exec=share-clipbrd
@@ -96,11 +86,11 @@ sudo systemctl enable lightdm.service
 
 sudo apt install zsh git fonts-font-awesome
 echo y | RUNZSH=no sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/themes/powerlevel10k
 
-sudo adduser ${USER} dialout
+sudo adduser "${USER}" dialout
 
 sudo apt autoremove
 sudo reboot now
