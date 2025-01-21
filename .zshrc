@@ -5,7 +5,7 @@ SESSION_NAME="terminal"
 # Don't start tmux inside VSCode
 if [ "$TERM_PROGRAM" != "vscode" ]; then
     SESSION_ATTACHED=$(
-        tmux list-sessions -F "#{session_name} #{session_attached}" 2>/dev/null | 
+        tmux list-sessions -F "#{session_name} #{session_attached}" 2>/dev/null |
         awk -v name="$SESSION_NAME" '$1 == name {print ($2 == 1 ? 1 : 0)}'
     )
 
@@ -14,7 +14,6 @@ if [ "$TERM_PROGRAM" != "vscode" ]; then
     fi
 
     if [ -z "$TMUX" ] && [ "$SESSION_ATTACHED" -eq 0 ]; then
-        echo TMUX
         tmux attach-session -t "$SESSION_NAME" || tmux new-session -s "$SESSION_NAME" -d
     fi
 fi
