@@ -110,5 +110,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-
 
 sudo adduser "${USER}" dialout
 
+cp -r home/.* /home/"${USER}"/
+
 sudo apt autoremove
 sudo reboot now
