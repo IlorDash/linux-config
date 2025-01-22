@@ -2,6 +2,8 @@
 
 set -ex
 
+cd ~
+
 # Packages versions
 
 SHARE_CLIPBRD_VER="1.0.3"
@@ -12,16 +14,6 @@ BTOP_VER="1.4.0"
 
 GIT_USERNAME="IlorDash"
 GIT_EMAIL="ilordash02@gmail.com"
-
-# Setup Full HD resolution
-
-if sudo grep -q '^GRUB_CMDLINE_LINUX_DEFAULT=' /etc/default/grub; then
-    sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"|' /etc/default/grub
-else
-    sudo echo 'GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"' >> /etc/default/grub
-fi
-
-sudo update-grub
 
 # Update
 
@@ -42,14 +34,14 @@ sudo rm /etc/apt/sources.list.d/ookla_speedtest-cli.list
 
 # Share Clipboard
 
-# wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
-# mkdir ShareClipbrdApp
-# tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
-# sudo ln -s $(pwd)/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
+wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
+mkdir ShareClipbrdApp
+tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
+sudo ln -s "$(pwd)"/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
 # Run Share Clipboard at startup
-mkdir -p /home/${USER}/.config/autostart
-touch /home/${USER}/.config/autostart/share-clipbrd.desktop
-cat > /home/${USER}/.config/autostart/share-clipbrd.desktop << EOL
+mkdir -p /home/"${USER}"/.config/autostart
+touch /home/"${USER}"/.config/autostart/share-clipbrd.desktop
+cat > /home/"${USER}"/.config/autostart/share-clipbrd.desktop << EOL
 [Desktop Entry]
 Type=Application
 Exec=share-clipbrd
@@ -83,7 +75,42 @@ cd btop
 sudo make install
 sudo make setcap
 
-sudo adduser ${USER} dialout
+# i3wm
+
+/usr/lib/apt/apt-helper download-file \
+    https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2024.03.04_all.deb \
+    keyring.deb SHA256:f9bb4340b5ce0ded29b7e014ee9ce788006e9bbfe31e96c09b2118ab91fca734
+sudo apt install ./keyring.deb
+echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) \
+    universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
+sudo apt update
+sudo apt install i3
+
+sudo apt -y install xorg lightdm lightdm-gtk-greeter i3status i3blocks dmenu \
+    terminator tmux feh materia-gtk-theme papirus-icon-theme lxappearance fonts-font-awesome \
+    picom fonts-droid-fallback
+sudo systemctl enable lightdm.service
+# i3lock-color
+sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev \
+    libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev \
+    libxcb-randr0-dev libxcb-image0-dev libxcb-util-dev libxcb-xrm-dev libxkbcommon-dev \
+    libxkbcommon-x11-dev libjpeg-dev
+git clone https://github.com/Raymo111/i3lock-color.git
+cd i3lock-color
+./build.sh
+./install-i3lock-color.sh
+
+# zsh
+
+sudo apt install zsh git fonts-font-awesome
+echo y | RUNZSH=no sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/themes/powerlevel10k
+
+sudo adduser "${USER}" dialout
+
+cp -r home/.* /home/"${USER}"/
 
 sudo apt autoremove
 sudo reboot now
