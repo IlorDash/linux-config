@@ -10,10 +10,22 @@ SHARE_CLIPBRD_VER="1.0.3"
 GCM_VER="2.6.0"
 BTOP_VER="1.4.0"
 
-# User
+if [[ ! -v GIT_USERNAME || ! -v GIT_EMAIL ]]; then
+    echo "ERROR: Either GIT_USERNAME or GIT_EMAIL is NOT set!"
+    exit 1
+fi
 
-GIT_USERNAME="IlorDash"
-GIT_EMAIL="ilordash02@gmail.com"
+if [[ -v USE_VM ]]; then
+    # # Setup Full HD resolution
+
+    if sudo grep -q '^GRUB_CMDLINE_LINUX_DEFAULT=' /etc/default/grub; then
+        sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"|' /etc/default/grub
+    else
+        echo 'GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"' | sudo tee -a /etc/default/grub > /dev/null
+    fi
+fi
+
+sudo update-grub
 
 # Update
 
@@ -32,16 +44,17 @@ sudo apt-get -y install speedtest-cli
 # Remove ookla repository, because it's fails due to unsecure
 sudo rm /etc/apt/sources.list.d/ookla_speedtest-cli.list
 
-# Share Clipboard
+if [[ -v USE_VM ]]; then
+    # Share Clipboard
 
-wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
-mkdir ShareClipbrdApp
-tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
-sudo ln -s "$(pwd)"/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
-# Run Share Clipboard at startup
-mkdir -p /home/"${USER}"/.config/autostart
-touch /home/"${USER}"/.config/autostart/share-clipbrd.desktop
-cat > /home/"${USER}"/.config/autostart/share-clipbrd.desktop << EOL
+    wget https://github.com/viordash/ShareClipbrd/releases/download/v${SHARE_CLIPBRD_VER}/ShareClipbrd-linux64.tar
+    mkdir ShareClipbrdApp
+    tar -xvf ShareClipbrd-linux64.tar -C ShareClipbrdApp
+    sudo ln -s "$(pwd)"/ShareClipbrdApp/ShareClipbrdApp /usr/bin/share-clipbrd
+    # Run Share Clipboard at startup
+    mkdir -p /home/"${USER}"/.config/autostart
+    touch /home/"${USER}"/.config/autostart/share-clipbrd.desktop
+    cat > /home/"${USER}"/.config/autostart/share-clipbrd.desktop << EOL
 [Desktop Entry]
 Type=Application
 Exec=share-clipbrd
@@ -52,6 +65,7 @@ Comment[en_US]=
 Comment=
 X-MATE-Autostart-Delay=0
 EOL
+fi
 
 # VS Code
 

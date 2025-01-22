@@ -1,15 +1,25 @@
 # Linux config
 
-My Linux config basically for Linux Mint Mate.
+My Ubuntu/Debian base Linux config for comfort and effective work.
 
-## Change screen resolution in Hyper-V VM
+## What I use
 
-To setup Full HD resolution in Hyper-V Linux Mint VM execute:
+There are several main packages:
+  * i3wm - to create windows layout;
+  * tmux - to maintain several terminal sessions;
+  * zsh - as default shell;
+  * picom - compositor to make non-active windows transparent;
+  * git-credential-manager - to simplify git auth;
+  * vscode - to edit;
+  * btop - to monitor your system;
+  * speedtest-cli - to monitor your network;
+  * ShareClipbrd - if you use VM to copy and paste from host to VM and vice-versa.
+
+## How to use
+
+Run `my-config.sh` script with specified git info:
 ```bash
-if sudo grep -q '^GRUB_CMDLINE_LINUX_DEFAULT=' /etc/default/grub; then
-sudo sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"|' /etc/default/grub
-else
-	echo 'GRUB_CMDLINE_LINUX_DEFAULT="quiet video=hyperv_fb:1920x1080"' | sudo tee -a /etc/default/grub > /dev/null
-fi
-sudo update-grub
+$ GIT_USERNAME="IlorDash" GIT_EMAIL="ilordash02@gmail.com" ./my-config.sh
 ```
+
+> **_NOTE:_** If you are using Linux in VM, add `USE_VM=""` to variable list.
