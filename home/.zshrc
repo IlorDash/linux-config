@@ -133,3 +133,19 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Set history file for each terminal session
+export HISTFILE=~/.zsh_history.$$
+
+# Standard Zsh history settings
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+# Append history instead of overwriting it
+setopt appendhistory
+
+# Save history when a command is executed (instead of at exit)
+setopt incappendhistory
+
+# Don't share history between Zsh sessions
+setopt no_share_history
