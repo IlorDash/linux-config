@@ -363,10 +363,9 @@ mode "$mode_gaps_left" {
 for_window [class="^.*"] border pixel 0
 
 # start main stack
-bindsym $mod+Shift+s    layout splitv;\
-                        move left;\
-                        resize set width 1674 px;\
-                        split v;\
+bindsym $mod+Shift+s    layout splith;\
+                        move up;\
+                        split h;\
                         layout stacking
 
 # Shortcut for Suspend
