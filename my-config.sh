@@ -98,14 +98,14 @@ sudo apt install ./keyring.deb
 echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) \
     universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
 sudo apt update
-sudo apt install i3 maim xclip xdotool
+sudo apt -y install i3 maim xclip xdotool
 
 sudo apt -y install xorg lightdm lightdm-gtk-greeter i3status i3blocks dmenu \
     terminator tmux feh materia-gtk-theme papirus-icon-theme lxappearance fonts-font-awesome \
     picom fonts-droid-fallback
 sudo systemctl enable lightdm.service
 # i3lock-color
-sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev \
+sudo apt -y install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev \
     libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev \
     libxcb-randr0-dev libxcb-image0-dev libxcb-util-dev libxcb-xrm-dev libxkbcommon-dev \
     libxkbcommon-x11-dev libjpeg-dev
@@ -116,15 +116,13 @@ cd i3lock-color
 
 # zsh
 
-sudo apt install zsh git fonts-font-awesome
+sudo apt -y install zsh git fonts-font-awesome
 echo y | RUNZSH=no sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/themes/powerlevel10k
 
 sudo adduser "${USER}" dialout
-
-cp -r home/.* /home/"${USER}"/
 
 sudo apt autoremove
 sudo reboot now
