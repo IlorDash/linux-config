@@ -1,38 +1,11 @@
 #!/bin/sh
 
-BLANK='#00000000'
-# shellcheck disable=SC2034
-CLEAR='#ffffff22'
-# DEFAULT='#8b0000aa'
-DEFAULT='#ffffffff'
-WRONG='#ff3131ff'
+pkill picom  # Kill picom before locking
+i3lock -c 000000 &  # Run i3lock in the background
 
-# '#00ff00ff'
+# Wait until i3lock exits
+while pgrep -x i3lock >/dev/null; do
+    sleep 1
+done
 
-i3lock \
---insidever-color=$BLANK     \
---ringver-color=$BLANK	 \
-\
---insidewrong-color=$BLANK   \
---ringwrong-color=$WRONG     \
-\
---inside-color=$BLANK        \
---ring-color=$DEFAULT        \
---line-color=$BLANK          \
---separator-color=$DEFAULT   \
-\
---verif-color=$DEFAULT       \
---wrong-color=$WRONG         \
---time-color=$DEFAULT        \
---date-color=$DEFAULT        \
---layout-color=$DEFAULT      \
---keyhl-color=$WRONG         \
---bshl-color=$WRONG          \
-\
---screen 1                   \
---blur 9                     \
---clock                      \
---indicator                  \
---time-str="%H:%M:%S"        \
---date-str="%A, %Y-%m-%d"    \
---keylayout 1                \
+picom --experimental-backends &  # Restart picom after unlocking
