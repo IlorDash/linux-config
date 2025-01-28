@@ -34,7 +34,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Use pactl to /adjust volume in PulseAudio.
+# Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -43,6 +43,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+
+# move tiling windows via drag & drop by left-clicking into the title bar,
+# or left-clicking anywhere into the window while holding the floating modifier.
+tiling_drag modifier titlebar
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
@@ -110,10 +114,10 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:  Working"
+set $ws1 "1:  Terminal"
 set $ws2 "2:  Firefox"
-set $ws3 "3"
-set $ws4 "4"
+set $ws3 "3:  Working"
+set $ws4 "4:  Firefox"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -196,6 +200,8 @@ bar {
 
         }
 }
+
+exec_always xrandr --output HDMI-1 --primary --auto --right-of eDP-1
 
 # Display Wallpaper
 exec_always feh --bg-fill /home/$USER/wallpaper.jpeg
@@ -378,3 +384,6 @@ bindsym Ctrl+Shift+Print exec --no-startup-id maim --select | xclip -selection c
 
 # Add keyboard languages
 exec_always "setxkbmap -model pc104 -layout us,ru -variant ,, -option grp:alt_shift_toggle"
+
+# Moving workspaces between screens
+bindsym $mod+p move workspace to output right
