@@ -88,6 +88,7 @@ tar -xvjf btop-x86_64-linux-musl.tbz
 cd btop
 sudo make install
 sudo make setcap
+cd ~
 
 # i3wm
 
