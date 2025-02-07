@@ -201,6 +201,8 @@ bar {
         }
 }
 
+for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down -30 px
+
 exec_always xrandr --output HDMI-1 --primary --auto --right-of eDP-1
 
 # Display Wallpaper

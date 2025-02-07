@@ -35,7 +35,7 @@ sudo apt-get -y dist-upgrade
 
 # Install packages
 
-sudo apt -y install wget curl git minicom
+sudo apt -y install wget curl git minicom gsimplecal
 
 # Speedtest CLI
 
