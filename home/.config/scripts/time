@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Display the formatted date and time with weekday and vertical bars
+echo "| $(date '+%a %Y-%m-%d %H:%M:%S') |"
+
+# Handle click events
+if [[ -n "$BLOCK_BUTTON" ]]; then
+    gsimplecal &
+fi
