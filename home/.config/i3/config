@@ -374,14 +374,14 @@ bindsym $mod+Shift+s    layout splith;\
 bindsym $mod+Control+x exec --no-startup-id systemctl suspend
 
 ## Screenshots
-bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
-bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
-bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
+bindsym Print exec --no-startup-id /home/$USER/.config/scripts/screenshot "maim '/home/$USER/Pictures/$(date)'"
+bindsym $mod+Print exec --no-startup-id /home/$USER/.config/scripts/screenshot "maim --window $(xdotool getactivewindow) '/home/$USER/Pictures/$(date)'"
+bindsym Shift+Print exec --no-startup-id /home/$USER/.config/scripts/screenshot "maim --select '/home/$USER/Pictures/$(date)'"
 
 ## Clipboard Screenshots
-bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
-bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
-bindsym Ctrl+Shift+Print exec --no-startup-id maim --select | xclip -selection cl
+bindsym Ctrl+Print exec --no-startup-id /home/$USER/.config/scripts/screenshot "maim | xclip -selection clipboard -t image/png"
+bindsym Ctrl+$mod+Print exec --no-startup-id /home/$USER/.config/scripts/screenshot "maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png"
+bindsym Ctrl+Shift+Print exec --no-startup-id /home/$USER/.config/scripts/screenshot "maim --select | xclip -selection clipboard -t image/png"
 
 # Add keyboard languages
 exec_always "setxkbmap -model pc104 -layout us,ru -variant ,, -option grp:alt_shift_toggle"

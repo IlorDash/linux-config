@@ -1,0 +1,11 @@
+#!/bin/sh
+
+pkill picom  # Kill picom before screenshot
+
+if [ "$#" -ne 1 ]; then
+    exit 1
+fi
+
+eval "$1"
+
+picom --experimental-backends &  # Restart picom after screenshot
