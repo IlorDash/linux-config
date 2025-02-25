@@ -134,18 +134,36 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Set history file for each terminal session
-export HISTFILE=~/.zsh_history.$$
-
-# Standard Zsh history settings
+# Standard history settings
 export HISTSIZE=10000
 export SAVEHIST=10000
+setopt appendhistory       # Append new history to the file instead of overwriting
+setopt incappendhistory    # Save each command to history immediately
+setopt no_share_history    # Don't share history in real-time between sessions
 
-# Append history instead of overwriting it
-setopt appendhistory
+# Main persistent history file
+export MAINHIST=~/.zsh_history
 
-# Save history when a command is executed (instead of at exit)
-setopt incappendhistory
+# Create a session-specific history file
+export HISTSESSION=/tmp/.zsh_sessions/history.$$
+mkdir -p /tmp/.zsh_sessions
+touch $HISTSESSION
 
-# Don't share history between Zsh sessions
-setopt no_share_history
+# Use a session-specific history file
+export HISTFILE=$HISTSESSION
+
+# Load main history into the session's history
+if [[ -f $MAINHIST ]]; then
+    cat $MAINHIST > $HISTSESSION
+fi
+
+# Save history on shell exit
+function save_history_on_exit {
+    cat $HISTSESSION >> $MAINHIST
+    if [ $(wc -l < "$MAINHIST") -gt $HISTSIZE ]; then
+        tail -n $HISTSIZE "$MAINHIST" > "${MAINHIST}.tmp" && mv "${MAINHIST}.tmp" "$MAINHIST"
+        fc -R "$MAINHIST"
+    fi
+    echo "1\n" >> ~/save_on_exit_exec.txt
+}
+trap save_history_on_exit EXIT
