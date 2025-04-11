@@ -361,7 +361,7 @@ bindsym $mod+Shift+s    layout splitv;\
                         move left;\
                         resize set width 1674 px;\
                         split v;\
-                        layout stacking
+                        layout tabbed
 
 # Shortcut for Suspend
 bindsym $mod+Control+x exec --no-startup-id systemctl suspend
