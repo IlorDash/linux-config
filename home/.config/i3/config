@@ -368,7 +368,7 @@ for_window [class="^.*"] border pixel 0
 bindsym $mod+Shift+s    layout splith;\
                         move up;\
                         split h;\
-                        layout stacking
+                        layout tabbed
 
 # Shortcut for Suspend
 bindsym $mod+Control+x exec --no-startup-id systemctl suspend
